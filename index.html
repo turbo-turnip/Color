@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SoftwareFuse Color — Online color picker</title>
+	<meta name="description" content="SoftwareFuse Color is an online color picker">
+	<meta name="keywords" content="SoftwareFuse, Color, color picker, online">
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<div class="color-container-rgb">
+		<div class="madeColor"></div>
+		<div class="inputs">
+			<div>
+				<label>Red <span class="output"></span></label>
+				<input type="range" class="r color" min="0" max="255" />
+
+				<label>Green <span class="output"></span></label>
+				<input type="range" class="g color" min="0" max="255" />
+
+				<label>Blue <span class="output"></span></label>
+				<input type="range" class="b color" min="0" max="255" />
+			</div>
+			<div>
+				<input type="text" class="rgb" />
+				<p class="copied">Copied!</p>
+			</div>
+		</div>
+
+		<div class="bottomtabs">
+			<button class="rgb-tab">RGB</button>
+			<button class="hex-tab">Hexadecimal</button>
+		</div>
+	</div>						
+
+	<script>
+		const inputs = document.querySelectorAll("input");
+		const outputs = document.querySelectorAll("span");
+		const color = document.querySelector(".madeColor");
+		const copyText = document.querySelector(".rgb");
+
+		copyText.value = `rgb(${inputs[0].value}, ${inputs[1].value}, ${inputs[2].value});`;
+
+		color.style.background = `rgba(
+					${inputs[0].value}, 
+					${inputs[1].value}, 
+					${inputs[2].value}, 
+				1)`;
+
+		for (let i = 0; i < outputs.length; i++) {
+			outputs[i].innerHTML = inputs[i].value;
+
+			inputs[i].addEventListener("input", () => {
+				outputs[i].innerHTML = inputs[i].value;
+				color.style.background = `rgba(
+					${inputs[0].value}, 
+					${inputs[1].value}, 
+					${inputs[2].value}, 
+				1)`;
+
+				copyText.value = `rgb(${inputs[0].value}, ${inputs[1].value}, ${inputs[2].value});`;
+			});
+		}
+
+		copyText.addEventListener("click", () => {
+			copyText.select();
+			copyText.setSelectionRange(0, 10000);
+			document.execCommand("copy");
+
+			document.querySelector(".copied").style.display = "block";
+			setTimeout(() => document.querySelector(".copied").style.display = "none", 2000);
+		});
+
+		document.querySelector(".hex-tab").addEventListener("click", () => document.location.href = "hex.html");
+	</script>
+</body>
+</html>
